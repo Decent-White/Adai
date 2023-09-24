@@ -1,0 +1,40 @@
+#! /usr/bin/env python3
+# vim:fenc=utf-8
+#
+# Copyright © 2023 veypi <i@veypi.com>
+#
+# Distributed under terms of the MIT license.
+
+"""
+
+"""
+
+import asyncio
+import tornado
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("""<!DOCTYPE html>
+<!-- saved from url=(0022)https://www.baidu.com/ -->
+<html style="--bubble-width: 108px; --bubble-padding-left: 132px;"><body class="cos-pc>
+                    .index-logo-srcnew,
+                    .index-logo-peak {
+                        display: none;
+                    }
+                    @media (-webkit-min-device-pixel-ratio: 2),
+                    (min--moz-device-pixel-ratio: 2),
+                    (-o-min-device-pixel-ratio: 2),
+                    (min-device-pixel-ratio: 2){
+                        .index-logo-src {
+                            display: none;
+                        }
+                        .index-logo-srcnew {
+                            display: inline;
+                        }
+                    }
+                </style><div id="lg" class="s-p-top"><img hidefocus="true" id="s_lg_im>                                    亮亮哥是真的帅</span></div><ul id="mMenu"><li><a h>                                    试图成为百度的篡改者</a></li><li><a href="javascri>                                    百度龙的斩杀</a></li><li class="ln"></li><li><a hr>                                    屠龙者必将成为龙</a></li></ul></span></span><input>
+
+def make_app():
+    return tornado.web.Application([
+        (r"/", MainHandler),
+    ])
