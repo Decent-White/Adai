@@ -1,0 +1,77 @@
+#! /usr/bin/env python3
+# vim:fenc=utf-8
+#
+# Copyright © 2023 veypi <i@veypi.com>
+#
+# Distributed under terms of the MIT license.
+
+"""
+
+"""
+
+import asyncio
+import tornado
+
+# 全局变量，用于存储状态信息，初始值为 '0'
+status = '0'
+
+# 处理切换状态请求的处理器
+class ToggleHandler(tornado.web.RequestHandler):
+    def get(self):
+        global status
+        # 切换状态值，如果当前状态是 '1'，则切换为 '0'，否则切换为 '1'
+        if status == '1':
+            status = '0'
+        else:
+            status = '1'
+        # 将切换后的状态值作为响应返回
+        self.write(status)
+
+# 主页请求处理器，暂时被注释掉，可以根据需要解注释
+# class MainHandler(tornado.web.RequestHandler):
+#     def get(self):
+#         self.write("""[hello world""")
+
+# 获取当前状态的处理器
+class StatusHandler(tornado.web.RequestHandler):
+    def get(self):
+        global status
+        # 将当前状态值作为响应返回
+        self.write(status)
+
+# 用于处理路径 '/123' 的请求处理器
+class abcHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write('asd')
+
+# 创建Tornado应用程序的函数
+def make_app():
+    # 使用 Tornado 的 Application 类创建应用程序，并指定每个路径对应的处理器
+    return tornado.web.Application([
+        # 主页请求处理器，暂时被注释掉，可以根据需要解注释
+        # (r"/", MainHandler),
+        # 处理切换状态的请求，路径为 '/toggle'
+        (r"/toggle", ToggleHandler),
+        # 获取当前状态的请求处理器，路径为 '/status'
+        (r"/status", StatusHandler),
+        # 处理路径 '/123' 的请求处理器
+        ('/123', abcHandler),
+        # 处理静态文件的处理器，将路径 "/(.*)" 映射到当前目录下的 "index.html" 文件
+        (r"/(.*)", tornado.web.StaticFileHandler, {"path": "./index.html"}),
+    ])
+
+# 异步主函数
+async def main():
+    # 创建Tornado应用程序
+    app = make_app()
+    # 指定端口号为80，并启动应用程序监听该端口
+    port = 80
+    app.listen(port)
+    print("服务器启动，监听端口 %d" % port)
+    # 使用 asyncio 的 Event 对象等待事件，保持主循环运行
+    await asyncio.Event().wait()
+
+# 如果当前脚本是主程序，则运行异步主函数
+if __name__ == "__main__":
+    asyncio.run(main())
+
